@@ -1,6 +1,6 @@
 # Thor - testing Android apps in adverse conditions
 
-Thor is a tool for executing Robotium tests of Android apps in "bad weather" conditions.
+Thor is a tool for executing Espresso and Robotium tests of Android apps in "bad weather" conditions.
 
 ## Getting started
 
