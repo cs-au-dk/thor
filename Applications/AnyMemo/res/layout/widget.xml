@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_layout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:background="@drawable/am_widget_frame"
+    android:paddingTop="11dp"
+    android:paddingBottom="11dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:layout_height="fill_parent" >
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textStyle="bold"
+    	android:text="@string/anymemo_widget_name" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:singleLine="true"
+        android:id="@+id/widget_db_name" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/widget_review_count"
+        android:singleLine="true"
+        android:textColor="#000000" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/widget_new_count"
+        android:singleLine="true"
+        android:textColor="#000000" />
+</LinearLayout>
+

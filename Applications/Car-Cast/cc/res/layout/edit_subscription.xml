@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="horizontal">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+                <!-- Focus control; see discussion here:
+                     http://stackoverflow.com/questions/1555109/stop-edittext-from-gaining-focus-at-activity-startup
+                     -->
+
+		<LinearLayout
+		    xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:focusableInTouchMode="true"
+		    android:orientation="vertical" >
+
+		    <TextView
+		        android:id="@+id/label"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Podcast Site URL:" />
+
+		    <EditText
+		        android:id="@+id/editsite_url"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:imeOptions="actionNext"
+		        android:inputType="textUri"
+		        android:text="http://" />
+
+		    <Button
+		        android:id="@+id/testEditSite"
+		        android:layout_width="105dp"
+		        android:layout_height="wrap_content"
+		        android:imeOptions="actionNext"
+		        android:singleLine="true"
+		        android:text="Test" />
+
+		    <TextView
+		        android:id="@+id/label2"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Site Name:" />
+
+		    <EditText
+		        android:id="@+id/editsite_name"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:paddingBottom="20dip"
+		        android:singleLine="true" />
+
+		    <CheckBox
+		        android:id="@+id/enabled"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/editsite_name"
+		        android:layout_marginTop="20px"
+		        android:checked="true"
+		        android:text="Enabled" />
+
+		    <CheckBox
+		        android:id="@+id/fifoLifo"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@id/enabled"
+		        android:layout_marginTop="20px"
+		        android:checked="true"
+		        android:text="Newest first (vs oldest first for audiobooks)" />
+
+		    <CheckBox
+		        android:id="@+id/priority"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@id/fifoLifo"
+		        android:layout_marginTop="20px"
+		        android:layout_marginBottom="10px"
+		        android:checked="false"
+		        android:text="Priority, play next (vs add to end)" />
+
+		    <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
+
+		        <TextView
+		            android:id="@+id/max"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Max downloads" >
+		        </TextView>
+
+		        <Spinner
+		            android:id="@+id/subMax"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/max"
+		            android:prompt="@string/maxChoices" />
+		    </RelativeLayout>
+
+		    <Button
+		        android:id="@+id/saveEditSite"
+		        android:layout_width="121dp"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@id/enabled"
+		        android:layout_marginLeft="100px"
+		        android:layout_marginTop="20px"
+		        android:focusable="true"
+		        android:text="Save" />
+		</LinearLayout>
+
+	</ScrollView>
+</LinearLayout>

@@ -1,0 +1,53 @@
+*.class
+*.log
+
+# eclipse specific
+.cache
+.project
+.classpath
+.settings
+
+#IntelliJ IDEA specific
+*.iml
+*.ipr
+*.iws
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+sootOutput/*.apk
+/bin
+
+#Gradle build specific
+build/
+.gradle/
+gradle-app.setting
+
+# Soot specific
+sootOutput/
+
+# Latex specific
+*.aux
+*.fdb_latexmk
+*.out
+*.pdf
+*.gz
+
+.DS_Store
+res/
+
+/automata/dist
+/automata/build
+
+out

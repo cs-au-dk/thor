@@ -1,0 +1,242 @@
+import java.util.regex.Pattern
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'dk.au.cs.thor.gradle:instrumentation:1.0.0'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
+//apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply from: 'gradle/adb_tasks.gradle'
+apply from: 'gradle/code_quality_tasks.gradle'
+apply from: 'gradle/intellij_config_tasks.gradle'
+apply plugin: 'instrumentation'
+
+check.dependsOn 'checkstyle'
+check.dependsOn 'pmd'
+
+ext {
+    projectVersion = "0.9"
+    featuresEnabled = [
+            "lego_nxt"                          : true,
+            "backpack"                          : false,
+            "parrot_ar_drone"                   : false,
+            "apk_generator"                     : false,
+            "computer_vision_enhancement"       : false,
+            "formula_editor_lists"              : false,
+            "physics_engine_collision_filtering": false,
+            "time_capsule"                      : false
+    ]
+}
+
+dependencies {
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.google.guava:guava:17.0'
+    compile fileTree(include: '*.jar', dir: 'catroid/libs')
+    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
+    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+
+    compile ('dk.au.cs.thor.robotium2espresso:robotium2espresso:1.0.0') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'guava'
+    }
+    
+    pmd 'net.sourceforge.pmd:pmd:5.1.1'
+}
+
+
+def getBuildNumberParameter = { ->
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    return code
+}
+
+def generateVersionName(version, buildNumber) {
+    def versionName
+    if (buildNumber == -1) {
+        versionName = getGitDescribe() + " " + getCurrentGitBranch()
+    } else {
+        versionName = version + "." + buildNumber
+    }
+    return versionName
+}
+
+def getGitDescribe() {
+    try {
+        return 'git describe --tags'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
+}
+
+def getCurrentGitBranch() {
+    try {
+        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
+}
+
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
+    
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+        applicationId 'org.catrobat.catroid'
+        testApplicationId "org.catrobat.catroid.test"
+        testInstrumentationRunner 'com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner'
+        versionCode getBuildNumberParameter()
+        println "VersionCode is " + versionCode
+        versionName generateVersionName(projectVersion, versionCode)
+        println "VersionName is " + versionName
+        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
+    buildTypes {
+
+        // Enable code coverage
+
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'catroid/AndroidManifest.xml'
+            java.srcDirs = ['catroid/src']
+            resources.srcDirs = ['catroid/src']
+            aidl.srcDirs = ['catroid/src']
+            renderscript.srcDirs = ['catroid/src']
+            res.srcDirs = ['catroid/res']
+            assets.srcDirs = ['catroid/assets']
+        }
+
+        androidTest {
+            java.srcDirs = ['catroidTest/src']
+            resources.srcDirs = ['catroidTest/src']
+            aidl.srcDirs = ['catroidTest/src']
+            renderscript.srcDirs = ['catroidTest/src']
+            res.srcDirs = ['catroidTest/res']
+            assets.srcDirs = ['catroidTest/assets']
+            if (file('testexclusions.txt').exists()) {
+                java.exclude file('testexclusions.txt').readLines()
+            }
+        }
+    }
+
+    lintOptions {
+        // define ignores like a specific res-folder in our lint.xml file
+        lintConfig file('config/lint.xml')
+
+        // all general ignores should be added in this place
+        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
+        // OldTargetApi should be reviewed - consider updating target API to 20
+        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
+
+        textReport true
+        xmlReport true
+        htmlReport false
+        xmlOutput file("build/reports/lint.xml")
+    }
+}
+
+
+if(project.hasProperty('jenkins')) {
+    project.android.dexOptions.preDexLibraries = false
+//    android.buildTypes.each { type ->
+//        if (type.name == "debug") {
+//            type.packageNameSuffix = ".jenkinsdebug"
+//            type.versionNameSuffix = "-jenkins-$type.name"
+//        }
+//    }
+}
+
+task featuresToBuildconfig << {
+    println "Activated Features:"
+    for (feature in featuresEnabled) {
+        def name = feature.key
+        def value = feature.value
+        if (project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if (project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        if (!(value.toString().equals("true") || value.toString().equals("false")))
+            throw new IllegalArgumentException("Wrong Argument! Usage:\ne.g. -PallFeatures_enabled=true -Pparrot_ar_drone_enabled=false")
+
+        if (value.toString().equals("true")) {
+            println "- " + name
+        }
+        android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
+    }
+    println ""
+}
+
+task testManifestHack << {
+    def origManifest = file('catroidTest/AndroidManifest.xml')
+    def generatedManifest = file("build/intermediates/manifests/test/debug/AndroidManifest.xml")
+    def origContent = origManifest.getText()
+    def generatedContent = generatedManifest.getText()
+    def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
+    def matcher = pattern.matcher(origContent)
+    matcher.find()
+    origContent = matcher.group()
+    generatedContent = pattern.matcher(generatedContent).replaceAll(origContent)
+    generatedManifest.write(generatedContent)
+}
+
+gradle.projectsEvaluated {
+    generateDebugTestBuildConfig.dependsOn testManifestHack
+}
+
+preBuild.dependsOn featuresToBuildconfig
+
+def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
+if (signing_config_file.exists()) {
+    apply from: signing_config_file.absolutePath
+}
+
+/*********************/
+/*** CODE COVERAGE ***/
+/*********************/
+
+allprojects {
+    
+    // Avoid VerifyError
+    
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.5
+        targetCompatibility = 1.5
+    }
+}
+
+task jacoco(dependsOn: "createDebugCoverageReport") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+}

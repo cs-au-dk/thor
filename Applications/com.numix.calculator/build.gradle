@@ -1,0 +1,21 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'dk.au.cs.thor.gradle:instrumentation:1.0.0'
+    }
+}
+
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.12"
+    }
+
+    repositories {
+        jcenter()
+    }
+}

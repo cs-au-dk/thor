@@ -1,0 +1,218 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'dk.au.cs.thor.gradle:instrumentation:1.0.0'
+    }
+}
+
+apply plugin: 'android'
+apply plugin: 'instrumentation'
+
+/* AnyMemo setting, removed for incompatibilities with jacoco */
+//sourceCompatibility = 1.6
+//targetCompatibility = 1.6
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 16
+    buildToolsVersion "19.0.0"
+
+    defaultConfig {
+        versionCode 200
+        versionName "10.4"
+        minSdkVersion 9
+        targetSdkVersion 16
+        testPackageName "org.liberty.android.fantastischmemo.test"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-${getBuildString()}"
+            testCoverageEnabled = true
+        }
+    }
+
+    productFlavors {
+        free {
+            packageName "org.liberty.android.fantastischmemo"
+        }
+        pro {
+            packageName "org.liberty.android.fantastischmemopro"
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        free {
+            res.srcDirs = ['src-flavors/free/res']
+        }
+
+        pro {
+            res.srcDirs = ['src-flavors/pro/res']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        androidTest.setRoot('tests')
+
+        androidTest {
+            java.srcDirs = ['test/src']
+            res.srcDirs = ['test/res']
+            assets.srcDirs = ['test/assets']
+            resources.srcDirs = ['test/src']
+        }
+    }
+}
+
+// Add Aspectj support
+configurations {
+    ajc
+    aspects
+    ajInpath
+
+    // Fix mockito dependency issue
+}
+
+ext.aspectjVersion = '1.7.4'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+
+    ajc "org.aspectj:aspectjtools:${aspectjVersion}"
+    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+    compile 'com.android.support:appcompat-v7:19.0.+'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile ('org.roboguice:roboguice:2.0') {
+        exclude module: 'aopalliance'
+        exclude module: 'cglib'
+    }
+    compile ('com.google.inject.extensions:guice-assistedinject:3.0') {
+        exclude module: 'aopalliance'
+        exclude module: 'guice'
+        exclude module: 'cglib'
+    }
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
+    compile('oauth.signpost:signpost-commonshttp4:1.2.1.2') {
+        exclude module: 'httpclient'
+    }
+    compile 'commons-io:commons-io:2.4'
+
+    compile 'com.google.guava:guava:16.0.1'
+
+    compile 'com.google.dexmaker:dexmaker:1.0'
+    compile ('com.google.dexmaker:dexmaker-mockito:1.0') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'objenesis'
+        exclude module: 'mockito-core'
+    }
+    compile 'org.mockito:mockito-all:1.9.5'
+
+    androidTestCompile ('dk.au.cs.thor.robotium2espresso:robotium2espresso:1.0.0') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'guava'
+    }
+}
+
+android.applicationVariants.all { variant ->
+
+    variant.javaCompile.doLast {
+        // Find the android.jar and add to iajc classpath
+        def androidSdk = android.adbExe.parent + "/../platforms/" + android.compileSdkVersion + "/android.jar"
+	println 'Android SDK android.jar path: ' + androidSdk
+
+        def iajcClasspath = androidSdk + ":" + configurations.compile.asPath 
+        configurations.compile.dependencies.each { dep ->
+            if(dep.hasProperty("dependencyProject")) {
+                iajcClasspath += ":" + dep.dependencyProject.buildDir + "/bundles/release/classes.jar"
+            }
+        }
+
+        // handle aar dependencies pulled in by gradle (Android support library and etc)
+	tree = fileTree(dir: "${project.buildDir}/exploded-aar", include: '**/classes.jar')
+	tree.each { jarFile ->
+	    iajcClasspath += ":" + jarFile
+        }
+
+	println 'Classpath for iajc: ' + iajcClasspath 
+
+        ant.taskdef( resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties", classpath: configurations.ajc.asPath)
+        ant.iajc (
+                source:sourceCompatibility,
+                target:targetCompatibility,
+                destDir:"${project.buildDir}/classes/${variant.dirName}",
+                aspectPath:configurations.aspects.asPath,
+                inpath:configurations.ajInpath.asPath,
+                sourceRootCopyFilter:"**/.svn/*,**/*.java",
+                classpath:iajcClasspath
+        ){
+            sourceroots{
+                android.sourceSets.main.java.srcDirs.each{
+                    pathelement(location:it.absolutePath)
+                }
+                // Build config file
+                pathelement(location:"${project.buildDir}/source/buildConfig/${variant.dirName}")
+
+                // Android resources R.***
+                pathelement(location:"${project.buildDir}/source/r/${variant.dirName}")
+            }
+        }
+    }
+}
+
+def getBuildString () {
+    def date = new Date()
+    def formattedDate = date.format('yyMMdd')
+    return "b" + formattedDate
+}
+
+
+/*********************/
+/*** CODE COVERAGE ***/
+/*********************/
+
+allprojects {
+    
+    // Avoid VerifyError
+    
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.6
+        targetCompatibility = 1.6
+    }
+}
+
+task jacoco(dependsOn: "createDebugCoverageReport") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+}

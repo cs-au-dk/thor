@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget0"
+android:background="#000"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<Button
+android:id="@+id/audioRecorderRecordButton"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="10dip"
+android:text="Record New Note"
+android:gravity="center"
+android:layout_x="90dip"
+android:layout_y="5dip"
+android:visibility="invisible"
+>
+</Button>
+<Button
+android:id="@+id/audioRecorderCancelButton"
+android:layout_width="110dip"
+android:layout_height="wrap_content"
+android:layout_marginTop="10dip"
+android:text=" Cancel "
+android:gravity="center"
+android:layout_x="5dip"
+android:layout_y="5dip"
+/>
+<ProgressBar android:id="@+id/audioRecorderBusy" android:indeterminate="true" android:indeterminateOnly="true" 
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_x="135dip"
+android:layout_y="5dip"
+></ProgressBar>
+<Button
+android:id="@+id/audioRecorderSaveButton"
+android:layout_width="110dip"
+android:layout_height="wrap_content"
+android:layout_marginTop="10dip"
+android:text="  Save  "
+android:gravity="center"
+android:layout_x="205dip"
+android:layout_y="5dip"
+/>
+<ListView
+android:id="@+id/audioRecorderListing"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:layout_x="0dip"
+android:layout_y="55dip"
+android:dividerHeight="5dip"
+
+>
+</ListView>
+</AbsoluteLayout>

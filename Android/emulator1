@@ -1,0 +1,47 @@
+export ANDROID_IMAGES_FOLDER="/Volumes/Android4.4.3/thor/Android/out/target/product/generic_x86"
+export ANDROID_IMAGES_DEST_PATH="/Users/cqa/android_images"
+
+echo "Creating the directory: ${ANDROID_IMAGES_DEST_PATH}/generic_x86_1"
+echo $ANDROID_IMAGES_FOLDER
+mkdir -p "$ANDROID_IMAGES_DEST_PATH/generic_x86_1"
+rsync -a --exclude "obj" --exclude "symbols" "$ANDROID_IMAGES_FOLDER/" "$ANDROID_IMAGES_DEST_PATH/generic_x86_1"
+
+case "$(uname -s)" in
+
+   Darwin)
+
+     export QEMU_EMULATOR_PATH="/Volumes/Android4.4.3/thor/Android/out/host/darwin-x86/bin/emulator64-x86"
+
+     "$QEMU_EMULATOR_PATH" \
+     -sysdir "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/" \
+     -system "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/system.img" \
+     -ramdisk "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/ramdisk.img" \
+     -data "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/userdata.img" \
+     -skindir /Volumes/Android4.4.3/thor/Android/development/tools/emulator/skins \
+     -kernel /Volumes/Android4.4.3/thor/Android/prebuilts/qemu-kernel/x86/kernel-qemu \
+     -port 5554 -sdcard "$ANDROID_IMAGES_DEST_PATH/mysd1.img" -scale 0.3 -prop emu.uuid=54dd0657-6c80-422a-b938-fb91db1b3cab -gpu on -memory 1024 -skin $1;;
+
+   Linux)
+
+     export QEMU_EMULATOR_PATH="/Volumes/Android4.4.3/thor/Android/out/host/linux-x86/bin/emulator64-x86"
+
+   	 "$QEMU_EMULATOR_PATH" \
+   	 -sysdir "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/" \
+   	 -system "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/system.img" \
+   	 -ramdisk "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/ramdisk.img" \
+   	 -data "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/userdata.img" \
+     -skindir /Volumes/Android4.4.3/thor/Android/development/tools/emulator/skins \
+   	 -kernel /Volumes/Android4.4.3/thor/Android/prebuilts/qemu-kernel/x86/kernel-qemu \
+   	 -port 5554 -sdcard "$ANDROID_IMAGES_DEST_PATH/mysd1.img" -scale 0.3 -prop emu.uuid=54dd0657-6c80-422a-b938-fb91db1b3cab -gpu on -memory 1024 -skin $1 -qemu -m 1200;;
+
+   CYGWIN*|MINGW32*|MSYS*)
+     echo "MS Windows"
+     ;;
+
+   *)
+     echo "other OS (or missing cases for above OSs)" 
+     ;;
+esac
+
+
+

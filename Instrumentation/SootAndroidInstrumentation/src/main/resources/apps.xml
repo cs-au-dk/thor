@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<apps>
+    <app id="com.jadn.cc">
+        <dirs>
+            <dir name="BASE">/Volumes/Android4.4.3/thor/Applications/Car-Cast</dir>
+            <dir name="APP_BASE">/Volumes/Android4.4.3/thor/Applications/Car-Cast/cc</dir>
+            <dir name="APP_CLASSES">/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/intermediates/classes/debug</dir>
+            <dir name="APP_RESOURCES">/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/intermediates/res/debug</dir>
+        </dirs>
+        <files>
+            <file name="APP_RESOURCES_VALUES">/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/intermediates/res/debug/values/values.xml</file>
+            <file name="TEST_APK">/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/outputs/apk/Car-Cast-debug-test-unaligned.apk</file>
+        </files>
+    </app>
+    <app id="com.numix.calculator">
+        <dirs>
+            <dir name="BASE">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator</dir>
+            <dir name="APP_BASE">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app</dir>
+            <dir name="APP_CLASSES">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/intermediates/classes/debug</dir>
+            <dir name="APP_RESOURCES">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/intermediates/res/debug</dir>
+        </dirs>
+        <files>
+            <file name="APP_RESOURCES_VALUES">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/intermediates/res/debug/values/values.xml</file>
+            <file name="TEST_APK">/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/outputs/apk/app-debug-test-unaligned.apk</file>
+        </files>
+    </app>
+    <app id="org.catrobat.catroid">
+        <dirs>
+            <dir name="BASE">/Volumes/Android4.4.3/thor/Applications/Catroid-latest</dir>
+            <dir name="APP_BASE">/Volumes/Android4.4.3/thor/Applications/Catroid-latest/catroid</dir>
+            <dir name="APP_CLASSES">/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/intermediates/classes/debug</dir>
+            <dir name="APP_RESOURCES">/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/intermediates/res/debug</dir>
+        </dirs>
+        <files>
+            <file name="APP_RESOURCES_VALUES">/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/intermediates/res/debug/values/values.xml</file>
+            <file name="TEST_APK">/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/outputs/apk/Catroid-latest-debug-test-unaligned.apk</file>
+        </files>
+    </app>
+    <app id="org.catrobat.paintroid">
+        <dirs>
+            <dir name="BASE">/Volumes/Android4.4.3/thor/Applications/Paintroid</dir>
+            <dir name="APP_BASE">/Volumes/Android4.4.3/thor/Applications/Paintroid/Paintroid</dir>
+            <dir name="APP_CLASSES">/Volumes/Android4.4.3/thor/Applications/Paintroid/build/intermediates/classes/debug</dir>
+            <dir name="APP_RESOURCES">/Volumes/Android4.4.3/thor/Applications/Paintroid/build/intermediates/res/debug</dir>
+        </dirs>
+        <files>
+            <file name="APP_RESOURCES_VALUES">/Volumes/Android4.4.3/thor/Applications/Paintroid/build/intermediates/res/debug/values/values.xml</file>
+            <file name="TEST_APK">/Volumes/Android4.4.3/thor/Applications/Paintroid/build/outputs/apk/Paintroid-debug-test-unaligned.apk</file>
+        </files>
+    </app>
+    <app id="org.liberty.android.fantastischmemo">
+        <dirs>
+            <dir name="BASE">/Volumes/Android4.4.3/thor/Applications/AnyMemo</dir>
+            <dir name="APP_BASE">/Volumes/Android4.4.3/thor/Applications/AnyMemo</dir>
+            <dir name="APP_CLASSES">/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/classes/pro/debug</dir>
+            <dir name="APP_RESOURCES">/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/res/all/pro/debug</dir>
+        </dirs>
+        <files>
+            <file name="APP_RESOURCES_VALUES">/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/res/all/pro/debug/values/values.xml</file>
+            <file name="TEST_APK">/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/apk/AnyMemo-pro-debug-test-unaligned.apk</file>
+        </files>
+    </app>
+</apps>

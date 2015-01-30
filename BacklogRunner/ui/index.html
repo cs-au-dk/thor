@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thor | Testing for Android</title>
+
+    <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="libs/jquery-ui.min.css" rel="stylesheet">
+
+    <link href="styles.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="loading">Loading&#8230;</div>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Thor</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#aggregation-runner">Runner</a></li>
+            <li><a href="http://localhost:3043/out/aggregates/" target="_blank">Aggregations</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>Thor - testing Android apps in adverse conditions</h1>
+      <p>See <a href="http://brics.dk/thor" target="_blank">http://brics.dk/thor</a>.</p>
+      <p>Help: See tooltips.</p>
+
+      <div id="page-aggregation-runner" class="page">
+        <div id="messages-aggregation-runner"></div>
+
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="col-xs-6 col-md-3">
+              <h2>Configure run</h2>
+              <div class="form-group" title="An identifier for the current job.">
+                <label for="aggregationTitle" class="col-sm-5 control-label" style="text-align: left">
+                  Identifier
+                </label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="aggregationTitle" name="aggregationTitle" placeholder="Enter identifier">
+                </div>
+              </div>
+
+              <div class="form-group" title="The name of the aggregation output folder. Defaults to the identifier provided above.">
+                <label for="aggregationName" class="col-sm-5 control-label" style="text-align: left">
+                  Aggr. ident.
+                </label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="aggregationName" name="aggregationName" placeholder="Enter identifier">
+                </div>
+              </div>
+
+              <div class="form-group" title="The number of repetitions to perform of the job being scheduled. Short-hand for scheduling the same job multiple times using the Run button.">
+                <label for="aggregationRepetitions" class="col-sm-5 control-label" style="text-align: left">
+                  Repetitions
+                </label>
+                <div class="col-sm-7">
+                  <select class="form-control" id="aggregationRepetitions" name="aggregationRepetitions">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" title="Save the Android logcat in the output files. If non-empty, the value of the text field is used to filter the log. Note: can take up a lot of space for big test schedules.">
+                <label for="log" class="col-sm-5 control-label" style="text-align: left">
+                  Log
+                  <input type="checkbox" id="log" name="log">
+                </label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="logFilter" name="logFilter" placeholder="Enter filter" value="InstrumentedLooper&AndroidTestRunner&LifecycleMonitor&EventManagerService&EventFakifier&Activity&WindowManagerService&QueuedaemonCommunicator&Snapshot&ActivityInstrumentationTestCase2&RemoteService&InstrumentationTestCase&TestInstrumentation&Solo">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-6 col-md-3">
+              <h2>Select application</h2>
+
+              <h2>Test suite options</h2>
+              <div class="checkbox" title="Do not schedule tests that reside in inner classes (due to Android test framework bug).">
+                <label>
+                  <input type="checkbox" name="ignoreInnerClasses" checked>
+                  Ignore inner classes
+                </label>
+              </div>
+
+              <div class="checkbox" title="Ignore stable tests, i.e. tests that are not annotated with android.test.UnstableTest.">
+                <label>
+                  <input type="checkbox" name="ignoreStable">
+                  Ignore stable
+                </label>
+              </div>
+
+              <div class="checkbox" title="Ignore unstable tests, i.e. tests that are annotated with android.test.UnstableTest.">
+                <label>
+                  <input type="checkbox" name="ignoreUnstable" checked>
+                  Ignore unstable
+                </label>
+              </div>
+
+              <div class="checkbox" title="Do not execute the test suite, but join the results of a previous test execution. Useful if the aggregated output is missing from a previous test execution.">
+                <label>
+                  <input type="checkbox" name="aggregateOnly">
+                  Aggregate only
+                </label>
+              </div>
+            </div>
+
+            <div class="col-xs-6 col-md-3">
+              <h2>Select algorithm</h2>
+
+              <div class="radio" title="Run tests without adverse conditions.">
+                <label>
+                  <input type="radio" name="stressTestingRadios" value="NONE">
+                  No
+                </label>
+              </div>
+
+              <div class="radio" title="Run tests using the 'basic algorithm': all the selected events are issued at every injection point.">
+                <label>
+                  <input type="radio" name="stressTestingRadios" value="AGGRESSIVE" checked>
+                  Yes, all events in same
+                </label>
+              </div>
+
+              <div class="row" title="Run tests using a less aggressive variant of the 'basic algorithm': the selected events are handled one at a time, injecting one kind of event in all injections points.">
+                <div class="col-sm-12 radio">
+                  <label>
+                    <input type="radio" name="stressTestingRadios" value="ALL">
+                    Yes, all events in different
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" title="Injects the select events in the entered injections points separated by comma (e.g. '5,10,17,23').">
+                <div class="col-sm-7 radio">
+                  <label>
+                    <input type="radio" name="stressTestingRadios" value="SINGLE">
+                    Yes, single
+                  </label>
+                </div>
+                <div class="col-sm-5 form-group">
+                  <input type="text" class="form-control" name="stressTestingSingleConfiguration" value="1">
+                </div>
+              </div>
+
+              <div class="row" title="Randomly determines whether or not to inject each of the selected events at every injection point. The value of the text field denotes the number of random executions of each selected test to perform.">
+                <div class="col-sm-7 radio">
+                  <label>
+                    <input type="radio" name="stressTestingRadios" value="EXHAUSTIVE" id="stressTestingExhaustive">
+                    Yes, exhaustive
+                  </label>
+                </div>
+                <div class="col-sm-5 form-group">
+                  <input type="text" class="form-control" name="stressTestingExhaustiveLimit" value="1">
+                </div>
+              </div>
+
+              <div class="row" title="Optional. The seeds for the random execution, separated by comma, to reproduce the results of previous, random test executions. If left empty, random seeds will be used.">
+                <div class="col-sm-7 radio">
+                  <label for="stressTestingExhaustive">
+                    Seeds (s<sub>1</sub>,s<sub>2</sub>,...)
+                  </label>
+                </div>
+                <div class="col-sm-5 form-group">
+                  <input type="text" class="form-control" name="stressTestingExhaustiveSeeds">
+                </div>
+              </div>
+
+              <div class="row" title="Use binary search to find a single event type and injection point (within the range entered into the text fields) which triggers a bug in the selected tests.">
+                <div class="col-sm-7 radio">
+                  <label>
+                    <input type="radio" name="stressTestingRadios" value="MINIMIZE">
+                    Minimize
+                  </label>
+                </div>
+                <div class="col-sm-5 form-group">
+                  <div class="row">
+                    <div class="col-sm-5" style="padding: 0"><input type="text" class="form-control" name="stressTestingMinimizeLowerBound" value="0"></div>
+                    <div class="col-sm-2 text-center" style="padding: 5px 0 0">-</div>
+                    <div class="col-sm-5" style="padding: 0"><input type="text" class="form-control" name="stressTestingMinimizeUpperBound" value="INF"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="stressTestingEventType" class="control-label" style="text-align: left">
+                  Event type (<small><a href="javascript: void(0)" id="event-type-fire">fire</a></small>)
+                </label>
+              </div>
+
+              <div class="form-group">
+                <select class="form-control" id="stressTestingEventType" name="stressTestingEventType" multiple>
+                  <option value="orientation-flip" data-abbreviation="rot">Flip orientation</option>
+                  <option value="pause-stop-restart" data-abbreviation="psr" selected>Pause-Stop-Restart</option>
+                  <option value="pause-stop-create" data-abbreviation="psc">Pause-Stop-Create</option>
+                  <option value="pause-stop-destroy-create" data-abbreviation="psdc">Pause-Stop-Destroy-Create</option>
+                  <option value="pause-resume" data-abbreviation="pr">Pause-Resume</option>
+                  <option value="pause-create" data-abbreviation="pc">Pause-Create</option>
+                  <option value="change-ui-mode" data-abbreviation="dock">Change UI Mode</option>
+                  <option value="data-connection-flip" data-abbreviation="datacon">Flip data connection</option>
+                  <option value="data-connection-on" data-abbreviation="datacon">Data connection on</option>
+                  <option value="data-connection-off" data-abbreviation="datacon">Data connection off</option>
+                  <option value="sms" data-abbreviation="sms">Incoming SMS</option>
+                  <option value="low-battery" data-abbreviation="lowbat">Low battery</option>
+                  <option value="audio-becoming-noisy" data-abbreviation="noisy">Audio becoming noisy</option>
+                  <option value="audio-becoming-noisy-media-play-key" data-abbreviation="noisy-play">Audio becoming noisy + Media play event</option>
+                  <option value="media-play-key" data-abbreviation="play">Media play event</option>
+                  <option value="request-audio-focus" data-abbreviation="req-audio">Request audio focus</option>
+                  <option value="request-audio-focus-may-duck" data-abbreviation="req-duck-audio">Request audio focus (may duck)</option>
+                  <option value="abandon-audio-focus" data-abbreviation="rel-audio">Abandon audio focus</option>
+                  <option value="request-abandon-audio-focus" data-abbreviation="req-rel-audio">Request audio focus + Abandon audio focus</option>
+                  <option value="request-abandon-audio-focus-may-duck" data-abbreviation="req-duck-rel-audio">Request audio focus (may duck) + Abandon audio focus</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xs-6 col-md-3">
+              <h2>Settings</h2>
+              
+              <h4>Modes</h4>
+
+              <div class="checkbox" title="Execute tests in a mode where Thor stops the test execution before and after injection. Makes it easy to see consequences of injections in the UI. The test can be continued by pressing the continue link.">
+                <label>
+                  <input type="checkbox" name="replay">
+                  Replay
+                </label>
+                <a href="javascript: void(0)" id="replay-continue">(continue)</a>
+              </div>
+
+              <div class="checkbox" title="Take screenshots of the test inbetween every UI action. Helpful for debugging. Also displays the UI effects of injections.">
+                <label>
+                  <input type="checkbox" name="snapshot">
+                  Snapshot
+                </label>
+              </div>
+
+              <div class="checkbox" title="Perform all injections in one execution of the test. Otherwise every test execution will only be subject to a single injection.">
+                <label>
+                  <input type="checkbox" name="collapse" checked>
+                  Inject all in one execution
+                </label>
+              </div>
+
+              <div class="checkbox" title="Stop the execution of each test at the first error has been found. Possibly hides some bugs, but improves performance.">
+                <label>
+                  <input type="checkbox" name="stopOnError">
+                  Stop on error
+                </label>
+              </div>
+
+              <h4>Redundancy reduction</h4>
+              <div class="checkbox" title="Use the redundancy reduction extension.">
+                <label>
+                  <input type="checkbox" name="superGraphMode">
+                  Abstract state cache
+                </label>
+              </div>
+
+              <div class="radio" title="Use a dump of the view hierarchy as abstract states.">
+                <label>
+                  <input type="radio" name="graphType" value="view" checked>
+                  Using view hierarchy
+                </label>
+              </div>
+              <div class="radio" title="Use a screen shot as abstract states.">
+                <label>
+                  <input type="radio" name="graphType" value="bitmap">
+                  Using bitmap
+                </label>
+              </div>
+
+              <h4>Other</h4>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="ignoreNoEffectMode">
+                  Ignore no effect mode
+                </label>
+              </div>
+              <div class="checkbox" title="Only inject relevant events (e.g. ignore audio events if not used).">
+                <label>
+                  <input type="checkbox" name="usedServicesMode">
+                  Check used services
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="randomInjectionMode">
+                  Inject randomly
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <h2>Select parts</h2>
+        <div id="select-parts"></div>
+        
+        <button id="run" type="button" class="btn btn-primary">Run</button>
+        <button id="find-view-bugs" type="button" class="btn btn-primary">Find view bugs</button>
+      </div>
+    </div><!-- /.container -->
+
+    <div class="modal fade" id="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/jquery-ui.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="aggregation-runner.js"></script>
+    <script src="polyfill.js"></script>
+  </body>
+</html>

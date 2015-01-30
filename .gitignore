@@ -1,0 +1,9 @@
+/.repo
+/BacklogRunner/node_modules
+.gitignore
+.gitmodules
+.gitattributes
+.DS_Store
+build/
+.gradle
+local.properties

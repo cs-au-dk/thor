@@ -1,0 +1,45 @@
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Ipython
+.ipynb_checkpoints/
+
+# spoon-output
+spoon-output/
+
+#npm 
+node_modules/
+
+#Espresso and Robotium folders
+Catroid-robotium/
+Catroid-espresso/
+WordPress-Android/
+/eout/
+/rout/
+
+robotium-*/
+espresso-*/
+out/
+
+test-extractor/out/
+
+# Aggregation and run folders
+spoonrun/
+aggregate/
+bintools/out/
+
+#IntelliJ
+/bin
+/public
+/root
+/views
+/routes
+*.iml
+
+.DS_Store
+*.dot
+*.json
+*.png

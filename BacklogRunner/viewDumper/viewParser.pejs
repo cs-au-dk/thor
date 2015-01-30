@@ -1,0 +1,25 @@
+{curLen = 0; cntStart = -1;}
+
+start
+  = intest:[ ]* view:viewIdentity fields:fieldsValues spc:[ ]* {return {"view": view , "fields": fields};}
+
+viewIdentity
+  = spc:[ ]* vclass:[^@]* "@" addr:hex* {return vclass.join("");}
+
+hex
+  = dig:[0-9]
+  / lit:[a-f]
+
+
+fieldsValues
+  = fields:field* {var res = {}; for (var p in fields) { res[fields[p].name] = fields[p]; }; return res;}
+
+field
+  = spc:[ ] kind:knd? name:[^:=]* "=" len:valLen "," content:cnt spc:[ ]* { peg$currPos = cntStart + curLen; return {"kind": kind, "name": name.join(""), "content": input.substring(cntStart, cntStart + curLen)};}
+
+knd = k:[^:=]* ":" {return k.join("");}
+
+cnt = st:.* {cntStart = offset(); return st.join("");}
+
+valLen
+  = len:[0-9]* {curLen = parseInt(len.join(""));}

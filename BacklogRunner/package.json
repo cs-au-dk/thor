@@ -1,0 +1,31 @@
+{
+  "name": "queuedaemon",
+  "description": "A queue daemon",
+  "private": true,
+  "author": "",
+  "dependencies": {
+    "express": ">=4.9.5",
+    "connect": "*",
+    "q": "*",
+    "colors": "*",
+    "jsdom": ">= 0.10.6",
+    "execSync": "*",
+    "serve-index": "*",
+    "serve-static": "*",
+    "kue" : "*",
+    "weak" : "*",
+    "harmony-reflect" : "*",
+    "fibers" : "*",
+    "mkdirp" : "*",
+    "node.extend" : "*",
+    "line-reader" : "*",
+    "adbkit":"*",
+    "bluebird":"*",
+    "progress":"*",
+    "moment":"*",
+    "forever":"*",
+    "adbkit-logcat":"*",
+    "seedrandom": "*"
+  },
+  "engine": "node >= 0.10.28"
+}

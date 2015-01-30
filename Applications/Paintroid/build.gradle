@@ -1,0 +1,105 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'dk.au.cs.thor.gradle:instrumentation:1.0.0'
+    }
+}
+
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.12"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
+apply plugin: 'instrumentation'
+
+dependencies {
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile fileTree(dir: 'Paintroid/libs', include: '*.jar')
+    compile fileTree(dir: 'PaintroidTest/libs', include: '*.jar')
+
+    compile ('dk.au.cs.thor.robotium2espresso:robotium2espresso:1.0.0') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'guava'
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+        applicationId 'org.catrobat.paintroid'
+        testApplicationId "org.catrobat.paintroid.test"
+        testInstrumentationRunner 'com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner'
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
+    buildTypes {
+
+        // Enable code coverage
+
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'Paintroid/AndroidManifest.xml'
+            java.srcDirs = ['Paintroid/src']
+            resources.srcDirs = ['Paintroid/src']
+            aidl.srcDirs = ['Paintroid/src']
+            renderscript.srcDirs = ['Paintroid/src']
+            res.srcDirs = ['Paintroid/res']
+            assets.srcDirs = ['Paintroid/assets']
+        }
+
+        androidTest {
+            java.srcDirs = ['PaintroidTest/src']
+            resources.srcDirs = ['PaintroidTest/src']
+            aidl.srcDirs = ['PaintroidTest/src']
+            renderscript.srcDirs = ['PaintroidTest/src']
+            res.srcDirs = ['PaintroidTest/res']
+            assets.srcDirs = ['PaintroidTest/assets']
+        }
+    }
+}
+
+/*********************/
+/*** CODE COVERAGE ***/
+/*********************/
+
+allprojects {
+    
+    // Avoid VerifyError
+    
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.5
+        targetCompatibility = 1.5
+    }
+}
+
+task jacoco(dependsOn: "createDebugCoverageReport") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+}

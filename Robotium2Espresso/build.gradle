@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-plugin:1.0'
+        classpath 'com.android.tools.build:gradle:0.9.+'
+    }
+}
+
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.10"
+    }
+}
+
+apply plugin: 'android-library'
+apply plugin: 'android-maven'
+
+group       = "dk.au.cs.thor.robotium2espresso"
+version     = "1.0.0"
+status      = "release"
+description = "Robotium wrapper for Thor"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    compile 'com.jakewharton.espresso:espresso:1.1-r3'
+}
+
+android {
+    compileSdkVersion 16
+    buildToolsVersion '19.0.0'
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 16
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.version = project.version
+        pom.artifactId = "robotium2espresso"
+    }
+}

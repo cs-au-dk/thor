@@ -1,0 +1,23 @@
+.DS_Store
+*.sw*
+local.properties
+build.xml
+gen/
+bin/
+libs/armeabi
+obj/
+.settings/
+.gradle/
+*.xmi
+.project
+.classpath
+build/
+
+# This contains secrets and should not be checked in!
+AMSecrets.java
+
+# IntelliJ Idea/Android Studio files
+*.iml
+*.ipr
+*.iws
+.idea/

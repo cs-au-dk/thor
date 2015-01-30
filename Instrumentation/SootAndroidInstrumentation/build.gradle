@@ -1,0 +1,70 @@
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = '2.2.1'
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    }
+}
+repositories{
+        mavenCentral()
+        mavenLocal()
+        flatDir {
+            dirs "soot/lib"
+        }
+    }
+
+dependencies{
+    compile "org.scala-lang:scala-library:2.11.0"
+    compile "org.scala-lang:scala-xml:2.11.0-M4"
+    compile "com.github.scala-incubator.io:scala-io-core_2.11:0.4.3-1"
+    compile "com.github.scala-incubator.io:scala-io-file_2.11:0.4.3-1"
+    compile "org.rogach:scallop_2.11.0-M8:0.9.5"
+    compile "com.assembla.scala-incubator:graph-core_2.11:1.9.1"
+    compile "com.assembla.scala-incubator:graph-dot_2.11:1.9.0"
+    compile "soot:soot-mod:1.0.0"
+    compile 'com.typesafe:config:1.2.+'
+    testCompile "junit:junit:4.+"
+}
+
+targetCompatibility = 1.6
+
+def files = file('res/').listFiles().sort()
+
+files.sort().each { 
+ targetName -> 
+    def bname = targetName.name
+    if(bname.contains('.apk') || bname.contains('.java')){
+        task "instrument_$bname"(type: JavaExec, dependsOn: classes) { 
+            main = 'entry'
+            args = ["$targetName"]
+            classpath sourceSets.main.runtimeClasspath
+            classpath configurations.runtime
+        } 
+    }
+}
+
+
+task "runprogram" (type: JavaExec, dependsOn: classes) { 
+    main = 'dk.au.cs.thor.testInstrumentation.entry'
+    args = ["res"]
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
+}
+
+apply plugin:'application'
+mainClassName = 'dk.au.cs.thor.testInstrumentation.entry'
+

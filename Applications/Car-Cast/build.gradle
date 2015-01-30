@@ -1,0 +1,98 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'dk.au.cs.thor.gradle:instrumentation:1.0.0'
+    }
+}
+
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.12"
+    }
+}
+
+apply plugin: 'android'
+apply plugin: 'instrumentation'
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+        applicationId "com.jadn.cc"
+        testApplicationId "com.jadn.cc.test"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
+    buildTypes {
+
+        // Enable code coverage
+
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'cc/AndroidManifest.xml'
+            java.srcDirs = ['cc/src']
+            resources.srcDirs = ['cc/src']
+            aidl.srcDirs = ['cc/src']
+            renderscript.srcDirs = ['cc/src']
+            res.srcDirs = ['cc/res']
+            assets.srcDirs = ['cc/assets']
+        }
+
+        androidTest {
+            java.srcDirs = ['cctest/src']
+            resources.srcDirs = ['cctest/src']
+            aidl.srcDirs = ['cctest/src']
+            renderscript.srcDirs = ['cctest/src']
+            res.srcDirs = ['cctest/res']
+            assets.srcDirs = ['cctest/assets']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'cc/libs', include: '*.jar')
+    androidTestCompile 'dk.au.cs.thor.robotium2espresso:robotium2espresso:1.0.0'
+}
+
+/*********************/
+/*** CODE COVERAGE ***/
+/*********************/
+
+allprojects {
+    
+    // Avoid VerifyError
+    
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.5
+        targetCompatibility = 1.5
+    }
+}
+
+task jacoco(dependsOn: "createDebugCoverageReport") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+}

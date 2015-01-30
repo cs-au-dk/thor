@@ -1,0 +1,31 @@
+ActionBarSherlock/library/.settings/org.eclipse.jdt.core.prefs
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+lint.xml
+
+# Intellij files
+*.iml
+.idea
+
+# Windows thumbnail files
+Thumbs.db
+
+.DS_Store
+.gradle/
+build/
+local.properties
+app-data-dynamic.json

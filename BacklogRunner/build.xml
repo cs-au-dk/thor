@@ -1,0 +1,30 @@
+<project name="Example" xmlns:jacoco="antlib:org.jacoco.ant">
+
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath path="/Volumes/Android4.4.3/thor/tools/jacocoant.jar"/>
+	</taskdef>
+	
+	<target name="merge">
+		<jacoco:merge destfile="${file.dest}">
+			<fileset dir="${dir.data}" includes="*.ec"/>
+		</jacoco:merge>
+	</target>
+	
+	<target name="report">
+		<jacoco:report>
+			<executiondata>
+				<file file="${file.coverage}"/>
+			</executiondata>
+			<structure name="Example Project">
+				<classfiles>
+					<fileset dir="${dir.classfiles}"/>
+				</classfiles>
+				<sourcefiles encoding="UTF-8">
+					<fileset dir="${dir.sourcefiles}"/>
+				</sourcefiles>
+			</structure>
+			<html destdir="${dir.dest}"/>
+		</jacoco:report>
+	</target>
+	
+</project>

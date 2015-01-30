@@ -1,0 +1,59 @@
+# built application files
+*.apk
+*.ap_
+
+# workspace settings
+*.metadata
+
+#IntelliJ IDEA
+.idea
+*.ipr
+*.iws
+out
+workspace.xml
+tasks.xml
+datasources.xml
+dataSources.ids
+.idea/libraries
+.idea/dictionaries
+!.idea/.name
+!.idea/codeStyleSettings.xml
+!.idea/compiler.xml
+!.idea/copyright/Catroid.xml
+!.idea/copyright/profiles_settings.xml
+!.idea/dictionaries/catrobat.xml
+!.idea/encodings.xml
+!.idea/gradle.xml
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/scopes/scope_settings.xml
+!.idea/vcs.xml
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Gradle
+.gradle/
+build/
+
+app-data-dynamic.json
