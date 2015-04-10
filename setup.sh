@@ -12,6 +12,7 @@ case ${answer:0:1} in
     sudo apt-get -y install make
     sudo apt-get -y install zlib1g-dev:i386
     sudo apt-get -y install git zip gradle curl redis-server dpkg-dev nodejs-legacy npm ack-grep
+    sudo apt-get install libgl1-mesa-dev
   ;;
   n|N )
   ;;
