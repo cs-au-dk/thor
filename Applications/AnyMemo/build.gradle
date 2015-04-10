@@ -9,6 +9,12 @@ buildscript {
     }
 }
 
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.12"
+    }
+}
+
 apply plugin: 'android'
 apply plugin: 'instrumentation'
 
