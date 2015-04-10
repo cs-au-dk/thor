@@ -86,7 +86,7 @@ fi
 
 echo "Getting test server dependencies"
 
-(cd /Volumes/Android4.4.3/BacklogRunner && npm install)
+(cd /Volumes/Android4.4.3/thor/BacklogRunner && npm install)
 
 echo "Initializing Thor"
 
