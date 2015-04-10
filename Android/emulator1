@@ -25,7 +25,7 @@ case "$(uname -s)" in
       
       KVM_OPTION=""
       if[$(kvm-ok)]
-         KVM_OPTION="-enable-kvm";
+         KVM_OPTION="-enable-kvm"
       fi
 
      export QEMU_EMULATOR_PATH="/Volumes/Android4.4.3/thor/Android/out/host/linux-x86/bin/emulator64-x86"
