@@ -1,5 +1,5 @@
 export ANDROID_IMAGES_FOLDER="/Volumes/Android4.4.3/thor/Android/out/target/product/generic_x86"
-export ANDROID_IMAGES_DEST_PATH="/home/thor/android_images"
+export ANDROID_IMAGES_DEST_PATH="/home/$USER/android_images"
 
 echo "Creating the directory: ${ANDROID_IMAGES_DEST_PATH}/generic_x86_1"
 echo $ANDROID_IMAGES_FOLDER
