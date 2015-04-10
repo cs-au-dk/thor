@@ -25,6 +25,7 @@ case "$(uname -s)" in
       
       KVM_OPTION=""
       if[$(kvm-ok)]
+        then
          KVM_OPTION="-enable-kvm"
       fi
 
