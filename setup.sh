@@ -76,10 +76,7 @@ sudo mkdir -p /Volumes/Android4.4.3
 sudo chown -R $USER /Volumes
 
 
-
-RES=$(cd /Volumes/Android4.4.3/thor && ls .git)
-
-if [ $RES -eq 0 ]; then
+if (cd /Volumes/Android4.4.3/thor && ls .git); then
   echo "- already there, resetting..."
   (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard && git checkout master)
 else
