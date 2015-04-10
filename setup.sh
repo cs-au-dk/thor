@@ -36,7 +36,7 @@ install "Google Repository"
 
 echo "Creating SD card"
 
-mkdir /home/$USER/android_images
+mkdir -p /home/$USER/android_images
 /home/$USER/android-sdk-linux/tools/mksdcard -l mysd1 1024M /home/$USER/android_images/mysd1.img
 
 echo "Cloning Thor"
