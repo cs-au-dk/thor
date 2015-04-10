@@ -11,7 +11,7 @@ case ${answer:0:1} in
     sudo apt-get -y install libxml2-utils
     sudo apt-get -y install make
     sudo apt-get -y install zlib1g-dev:i386
-    sudo apt-get -y install git zip sudo apt-get install gradle sudo apt-get install curl redis-server dpkg-dev nodejs-legacy npm ack-grep
+    sudo apt-get -y install git zip gradle curl redis-server dpkg-dev nodejs-legacy npm ack-grep
   ;;
   n|N )
     break
@@ -77,7 +77,7 @@ echo "Cloning Thor"
 sudo mkdir -p /Volumes/Android4.4.3
 sudo chown -R $USER /Volumes
 
-if [ -d "/Volumes/Android4.4.3/thor" ]; then
+if [ -d "/Volumes/Android4.4.3/thor" && $(cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard && git checkout master) ]; then
   echo "- already there, resetting..."
   (cd /Volumes/Android4.4.3/thor && git reset --hard)
 else
