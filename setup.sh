@@ -4,22 +4,14 @@ read -p "Install dependencies (y/n)?" answer
 case ${answer:0:1} in
   y|Y )
     sudo apt-get update
-    sudo apt-get install openjdk-7-jdk
-    sudo apt-get install git
-    sudo apt-get install bison
-    sudo apt-get install g++-multilib
-    sudo apt-get install gperf
-    sudo apt-get install libxml2-utils
-    sudo apt-get install make
-    sudo apt-get install zlib1g-dev:i386
-    sudo apt-get install zip
-    sudo apt-get install gradle
-    sudo apt-get install curl
-    sudo apt-get install redis-server
-    sudo apt-get install dpkg-dev
-    sudo apt-get install nodejs-legacy
-    sudo apt-get install npm
-    sudo apt-get install ack-grep
+    sudo apt-get -y install openjdk-7-jdk
+    sudo apt-get -y install bison
+    sudo apt-get -y install g++-multilib
+    sudo apt-get -y install gperf
+    sudo apt-get -y install libxml2-utils
+    sudo apt-get -y install make
+    sudo apt-get -y install zlib1g-dev:i386
+    sudo apt-get -y install git zip sudo apt-get install gradle sudo apt-get install curl redis-server dpkg-dev nodejs-legacy npm ack-grep
   ;;
   n|N )
     break
@@ -36,11 +28,10 @@ fi
 
 echo "Unpacking latest Android SDK"
 
-mkdir -p /home/$USER/android-sdk-linux
-
 if [ -d "/home/$USER/android-sdk-linux" ]; then
   echo "- already there..."
 else
+  mkdir -p /home/$USER/android-sdk-linux
   tar zxvf /home/$USER/Downloads/android-sdk_r24.1.2-linux.tgz -C /home/$USER/
 fi
 
