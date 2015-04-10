@@ -15,3 +15,4 @@ Linux)
 *)
 	echo "Environment set-up is only supported on Ubuntu"
 	;;
+esac
