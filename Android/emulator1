@@ -22,6 +22,11 @@ case "$(uname -s)" in
      -port 5554 -sdcard "$ANDROID_IMAGES_DEST_PATH/mysd1.img" -scale 0.3 -prop emu.uuid=54dd0657-6c80-422a-b938-fb91db1b3cab -gpu on -memory 1024 -skin $1;;
 
    Linux)
+      
+      KVM_OPTION=""
+      if[$(kvm-ok)]
+         KVM_OPTION="-enable-kvm";
+      elif
 
      export QEMU_EMULATOR_PATH="/Volumes/Android4.4.3/thor/Android/out/host/linux-x86/bin/emulator64-x86"
 
@@ -32,7 +37,7 @@ case "$(uname -s)" in
    	 -data "$ANDROID_IMAGES_DEST_PATH/generic_x86_1/userdata.img" \
          -skindir /Volumes/Android4.4.3/thor/Android/development/tools/emulator/skins \
    	 -kernel /Volumes/Android4.4.3/thor/Android/prebuilts/qemu-kernel/x86/kernel-qemu \
-   	 -port 5554 -sdcard "$ANDROID_IMAGES_DEST_PATH/mysd1.img" -scale 0.3 -prop emu.uuid=54dd0657-6c80-422a-b938-fb91db1b3cab -gpu on -memory 1024 -skin $1 -qemu -m 1200  -enable-kvm;;
+   	 -port 5554 -sdcard "$ANDROID_IMAGES_DEST_PATH/mysd1.img" -scale 0.3 -prop emu.uuid=54dd0657-6c80-422a-b938-fb91db1b3cab -gpu on -memory 1024 -skin $1 -qemu -m 1200 $KVM_OPTION;;
 
    CYGWIN*|MINGW32*|MSYS*)
      echo "MS Windows"
