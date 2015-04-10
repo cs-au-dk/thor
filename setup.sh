@@ -3,7 +3,7 @@
 echo "Installing dependencies"
 
 sudo apt-get update
-sudo apt-get install openjdk-7-jdk git bison g++-multilib git gperf libxml2-utils make zlib1g-dev:i386 zip gradle curl redis-server dpkg-dev nodejs-legacy npm ack-grep
+sudo apt-get install openjdk-7-jdk git bison g++-multilib gperf libxml2-utils make zlib1g-dev:i386 zip gradle curl redis-server dpkg-dev nodejs-legacy npm ack-grep
 
 echo "Downloading latest Android SDK"
 
