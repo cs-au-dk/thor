@@ -78,7 +78,7 @@ sudo chown -R $USER /Volumes
 
 if (cd /Volumes/Android4.4.3/thor && ls .git); then
   echo "- already there, resetting..."
-  (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard && git checkout master)
+  (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard origin/master)
 else
   git clone https://github.com/cs-au-dk/thor.git /Volumes/Android4.4.3/thor
 fi
