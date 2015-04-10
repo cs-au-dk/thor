@@ -3,7 +3,7 @@ case "$(uname -s)" in
 
 Linux)
 	sudo apt-get install cpu-checker
-	if [!$(kvm-ok)]
+	if [!$(kvm-ok)] then
 		echo "- KVM is not present in your OS installation";
 		exit 1;
 	elif
