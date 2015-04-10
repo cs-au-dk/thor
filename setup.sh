@@ -12,7 +12,7 @@ curl http://dl.google.com/android/android-sdk_r24.1.2-linux.tgz -o ~/Downloads/a
 echo "Unpacking latest Android SDK"
 
 mkdir -p /home/$USER/android-sdk-linux
-tar zxvf /home/$USER/Downloads/android-sdk_r24.1.2-linux.tgz -C /home/$USER/android-sdk-linux
+tar zxvf /home/$USER/Downloads/android-sdk_r24.1.2-linux.tgz -C /home/$USER/
 
 echo "Installing Android SDK dependencies (build tools, SDKs, ...)"
 
