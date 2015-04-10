@@ -12,6 +12,12 @@ buildscript {
     }
 }
 
+allprojects {
+    task wrapper(type: Wrapper) {
+        gradleVersion = "1.12"
+    }
+}
+
 repositories {
     mavenLocal()
     mavenCentral()

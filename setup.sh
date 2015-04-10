@@ -14,7 +14,6 @@ case ${answer:0:1} in
     sudo apt-get -y install git zip gradle curl redis-server dpkg-dev nodejs-legacy npm ack-grep
   ;;
   n|N )
-    break
   ;;
 esac
 
@@ -58,7 +57,6 @@ case ${answer:0:1} in
     install "Google Repository"
   ;;
   n|N )
-    break
   ;;
 esac
 
