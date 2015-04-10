@@ -16,12 +16,28 @@ tar zxvf /home/$USER/Downloads/android-sdk_r24.1.2-linux.tgz -C /home/$USER/andr
 
 echo "Installing Android SDK dependencies (build tools, SDKs, ...)"
 
-# TODO
+function install {
+  MATCHING=$(/home/$USER/android-sdk-linux/tools/android list sdk -u --all | grep -m 1 "$1")
+  echo "Found $MATCHING"
+  if [[ $MATCHING =~ (([0-9]*)-.*)$ ]]; then 
+    echo "- sdk item number is ${BASH_REMATCH[2]}"
+  fi
+  /home/$USER/android-sdk-linux/tools/android update sdk -u -a -t ${BASH_REMATCH[2]}
+}
+
+install "Android.*4.1.2"
+install "Android.*4.4.2"
+install "Android.*5.0.1"
+install "Android SDK Build-tools.*19.1[^\.]+"
+install "Android SDK Build-tools.*21.1.2"
+install "Android Support Repository"
+install "Android Support Library"
+install "Google Repository"
 
 echo "Creating SD card"
 
 mkdir /home/$USER/android_images
-(cd /home/$USER/android-sdk-linux/tools && ./mksdcard -l mysd1 1024M /home/$USER/android_images/mysd1.img)
+/home/$USER/android-sdk-linux/tools/mksdcard -l mysd1 1024M /home/$USER/android_images/mysd1.img
 
 echo "Cloning Thor"
 
