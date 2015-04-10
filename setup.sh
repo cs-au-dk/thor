@@ -77,7 +77,7 @@ echo "Cloning Thor"
 sudo mkdir -p /Volumes/Android4.4.3
 sudo chown -R $USER /Volumes
 
-if [ -d "/Volumes/Android4.4.3/thor" && $(cd /Volumes/Android4.4.3/thor && ls .git) -ne 0 ]; then
+if [ $(cd /Volumes/Android4.4.3/thor && ls .git) -ne 0 ]; then
   echo "- already there, resetting..."
   (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard && git checkout master)
 else
