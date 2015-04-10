@@ -3,8 +3,9 @@ case "$(uname -s)" in
 
 Linux)
 	sudo apt-get install cpu-checker
-	if [!$(kvm-ok)] then
-		echo "- KVM is not present in your OS installation";
+	if [ !$(kvm-ok) ] 
+		then
+		echo "- KVM is not present in your OS installation"
 		exit 1
 	fi
 	sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
