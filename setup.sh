@@ -48,11 +48,11 @@ function install {
 
 case ${answer:0:1} in
   y|Y )
-    install "Android.*4.1.2"
-    install "Android.*4.4.2"
-    install "Android.*5.0.1"
-    install "Android SDK Build-tools.*19.1[^\.]*"
-    install "Android SDK Build-tools.*21.1.2"
+    install "Android.* 4.1.2"
+    install "Android.* 4.4.2"
+    install "Android.* 5.0.1"
+    install "Android SDK Build-tools.* 19.1[^\.]*"
+    install "Android SDK Build-tools.* 21.1.2"
     install "Android Support Repository"
     install "Android Support Library"
     install "Google Repository"
