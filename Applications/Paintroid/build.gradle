@@ -33,7 +33,6 @@ dependencies {
 
     compile ('dk.au.cs.thor.robotium2espresso:robotium2espresso:1.0.0') {
         exclude module: 'hamcrest-core'
-        exclude module: 'guava'
     }
 }
 
