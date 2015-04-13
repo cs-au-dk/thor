@@ -11,7 +11,7 @@ buildscript {
 
 allprojects {
     task wrapper(type: Wrapper) {
-        gradleVersion = "1.10"
+        gradleVersion = "1.11"
     }
 }
 
@@ -22,9 +22,11 @@ apply plugin: 'instrumentation'
 //sourceCompatibility = 1.6
 //targetCompatibility = 1.6
 
-repositories {
-    mavenLocal()
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
 }
 
 android {

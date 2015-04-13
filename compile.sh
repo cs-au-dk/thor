@@ -15,7 +15,7 @@ echo "Building the Espresso wrapper"
 
 echo "Compiling app: AnyMemo"
 
-(cd ${THORP}Applications/AnyMemo && ./gradlew assembleFreeDebug assembleProDebugTest)
+(cd ${THORP}Applications/AnyMemo && ./gradlew assembleProDebug assembleProDebugTest)
 
 echo "Compiling app: Car-Cast"
 
