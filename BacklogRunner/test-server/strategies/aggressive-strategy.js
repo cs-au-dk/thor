@@ -158,12 +158,12 @@ function Strategy(taskInfo, configuration, settings) {
       AndroidObjects: AndroidObjects,
       tools: tools,
       self: self
-    }, function(result, androidInterface) { // modified callback
+    }, function(result, device.androidInterface) { // modified callback
       if (settings.stopOnError) {
         callback(result);
       } else {
         taskInfo.title += "-stop-on-error";
-        androidInterface.aggregateTests(taskInfo, [currentMode.results[0]], function (error) {
+        device.androidInterface.aggregateTests(taskInfo, [currentMode.results[0]], function (error) {
           taskInfo.title = taskInfo.title.substring(0, taskInfo.title.lastIndexOf("-stop-on-error"));
           callback(result);
         });
