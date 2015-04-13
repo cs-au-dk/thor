@@ -47,40 +47,40 @@ exports.config = {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/AnyMemo/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/intermediates/classes/pro/debug",
       apks: {
-        debug: "../Applications/AnyMemo/build/apk/AnyMemo-pro-debug-unaligned.apk",
-        debugTest: "../Applications/AnyMemo/build/apk/AnyMemo-pro-debug-test-unaligned.apk"
+        debug: "/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/apk/AnyMemo-pro-debug-unaligned.apk",
+        debugTest: "/Volumes/Android4.4.3/thor/Applications/AnyMemo/build/apk/AnyMemo-pro-debug-test-unaligned.apk"
       }
     },
     "com.jadn.cc": {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/cc/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/intermediates/classes/debug",
       apks: {
-        debug: "../Applications/Car-Cast/build/outputs/apk/Car-Cast-debug-unaligned.apk",
-        debugTest: "../Applications/Car-Cast/build/outputs/apk/Car-Cast-debug-test-unaligned.apk"
+        debug: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/outputs/apk/Car-Cast-debug-unaligned.apk",
+        debugTest: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/outputs/apk/Car-Cast-debug-test-unaligned.apk"
       }
     },
     "com.numix.calculator": {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/intermediates/classes/debug",
       apks: {
-        debug: "../Applications/com.numix.calculator/app/build/outputs/apk/app-debug-unaligned.apk",
-        debugTest: "../Applications/com.numix.calculator/app/build/outputs/apk/app-debug-test-unaligned.apk"
+        debug: "/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/outputs/apk/app-debug-unaligned.apk",
+        debugTest: "/Volumes/Android4.4.3/thor/Applications/com.numix.calculator/app/build/outputs/apk/app-debug-test-unaligned.apk"
       }
     },
     "org.catrobat.catroid": {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/Catroid-latest/catroid/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/intermediates/classes/debug",
       apks: {
-        debug: "../Applications/Catroid-latest/build/outputs/apk/Catroid-latest-debug-unaligned.apk",
-        debugTest: "../Applications/Catroid-latest/build/outputs/apk/Catroid-latest-debug-test-unaligned.apk"
+        debug: "/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/outputs/apk/Catroid-latest-debug-unaligned.apk",
+        debugTest: "/Volumes/Android4.4.3/thor/Applications/Catroid-latest/build/outputs/apk/Catroid-latest-debug-test-unaligned.apk"
       }
     },
     "org.catrobat.paintroid": {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/Paintroid/Paintroid/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/Paintroid/build/intermediates/classes/debug",
       apks: {
-        debug: "../Applications/Paintroid/build/outputs/apk/Paintroid-debug-unaligned.apk",
-        debugTest: "../Applications/Paintroid/build/outputs/apk/Paintroid-debug-test-unaligned.apk"
+        debug: "/Volumes/Android4.4.3/thor/Applications/Paintroid/build/outputs/apk/Paintroid-debug-unaligned.apk",
+        debugTest: "/Volumes/Android4.4.3/thor/Applications/Paintroid/build/outputs/apk/Paintroid-debug-test-unaligned.apk"
       }
     }
   },
