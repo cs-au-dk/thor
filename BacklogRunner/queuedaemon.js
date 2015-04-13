@@ -254,6 +254,14 @@ function onSubjobsComplete(job, done) {
 
   // Aggregation
 
+
+  combineAggregationOutput(job.data.name, job, function(err) {
+
+    completeAggregationJob(job, done, err);
+
+  }, getTaskInfo);
+  
+  /* TODO: Enable to generate stop-on-error output whenever we can (hence whenever we have the first configuration run)
   if (settings.stressType == Type.NONE || settings.stressType == Type.MINIMIZE || settings.stressType == Type.EXHAUSTIVE || settings.stopOnError) {
     combineAggregationOutput(job.data.name, job, function(err) {
 
@@ -274,7 +282,8 @@ function onSubjobsComplete(job, done) {
       taskInfo.title += "-stop-on-error";
       return taskInfo;
     })
-  }  
+  } 
+  */ 
 }
 
 function combineAggregationOutput(name, job, callback, getTaskInfo) {
