@@ -77,9 +77,14 @@ sudo mkdir -p /Volumes/Android4.4.3
 sudo chown -R $USER /Volumes
 
 
-if (cd /Volumes/Android4.4.3/thor && ls .git); then
-  echo "- already there, resetting..."
-  (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard origin/master)
+if [ -d "/Volumes/Android4.4.3/thor" ]; then
+  if (cd /Volumes/Android4.4.3/thor && ls .git); then
+    echo "- already there, resetting..."
+    (cd /Volumes/Android4.4.3/thor && git fetch --all && git reset --hard origin/master)
+  else
+    rm -rf /Volumes/Android4.4.3/thor
+    git clone https://github.com/cs-au-dk/thor.git /Volumes/Android4.4.3/thor
+  fi
 else
   git clone https://github.com/cs-au-dk/thor.git /Volumes/Android4.4.3/thor
 fi
