@@ -51,14 +51,6 @@ exports.config = {
         debugTest: "../Applications/AnyMemo/build/apk/AnyMemo-pro-debug-test-unaligned.apk"
       }
     },
-    "com.dennisideler.calculator": {
-      srcDir: "/Volumes/Android4.4.3/thor/Applications/AndroidExperiments/BasicCalculator/src",
-      classDir: "/Volumes/Android4.4.3/thor/Applications/AndroidExperiments/BasicCalculator/build/classes/debug",
-      apks: {
-        debug: "../Applications/AndroidExperiments/BasicCalculator/build/apk/BasicCalculator-debug-unaligned.apk",
-        debugTest: "../Applications/AndroidExperiments/BasicCalculator/build/apk/BasicCalculator-debug-test-unaligned.apk"
-      }
-    },
     "com.jadn.cc": {
       srcDir: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/cc/src",
       classDir: "/Volumes/Android4.4.3/thor/Applications/Car-Cast/build/intermediates/classes/debug",
