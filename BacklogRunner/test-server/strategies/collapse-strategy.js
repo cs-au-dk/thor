@@ -145,7 +145,11 @@ function Strategy(taskInfo, configuration, settings) {
     },
 
     toString: function() {
-      return this.id() + "-" + this.injectOnActionGreaterThanEq;
+      if (settings.stressType == Type.ALL) {
+        return this.id() + "-" + this.injectOnActionGreaterThanEq;
+      } else {
+        return this.id() + "-" + settings.configurations.join("-") + "-action-" + this.injectOnActionGreaterThanEq;
+      }
     }
   };
 
