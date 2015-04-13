@@ -141,6 +141,6 @@ unzip /home/$USER/Downloads/android-images.zip -d /Volumes/Android4.4.3/thor/And
 
 echo "Setting ANDROID_HOME"
 
-echo "ANDROID_HOME=/Volumes/Android4.4.3/thor/Android" >> /home/$USER/.bashrc
+echo "export ANDROID_HOME=/Volumes/Android4.4.3/thor/Android" >> /home/$USER/.bashrc
 . /home/$USER/.bashrc
 
