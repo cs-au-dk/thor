@@ -24,7 +24,7 @@ function toCSV(project, id, data) {
         var result = runTests[testName];
 
         if (tests[testName]) {
-          console.log(TAG, "Warning: duplicate tests in toCSV(), overriding...".red);
+          // console.log(TAG, "Warning: duplicate tests in toCSV(), overriding...".red);
         }
 
         tests[testName] = result;
