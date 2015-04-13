@@ -287,7 +287,8 @@ function onSubjobsComplete(job, done) {
 }
 
 function combineAggregationOutput(name, job, callback, getTaskInfo) {
-  var params = ["-jar", "-XX:-UseConcMarkSweepGC", "-Xms6g", "-Xmx6g", config.spoonPath, "--noprettify", "--aggregateout", config.modules.aggregation.outDir + "/" + name];
+  var outDir = config.modules.aggregation.outDir + "/" + name
+  var params = ["-jar", "-XX:-UseConcMarkSweepGC", "-Xms6g", "-Xmx6g", config.spoonPath, "--noprettify", "--aggregateout", outDir];
   job.data.tasks.forEach(function(task) {
     var taskInfo = getTaskInfo(job, task);
     var path = config.modules.spoonrunner.outDir + "/" + taskInfo.title + "/result.json";
@@ -305,7 +306,7 @@ function combineAggregationOutput(name, job, callback, getTaskInfo) {
     job.save();
     
     // And finish the job
-    console.log(TAG, "finished an aggregation " + job.id);
+    console.log(TAG, "finished an aggregation " + job.id + " output in: " + outDir);
 
     var err;
     if (stderr.indexOf("java.lang.OutOfMemoryError") >= 0) {
