@@ -278,6 +278,7 @@ function AndroidInterface(device) {
       "-jar",
       "-Xmx1g",
       config.spoonPath,
+      "--sdk", config.androidPath,
       "--apk", path.normalize(config.projects[taskInfo.applicationId].apks.debug),
       "--test-apk", path.normalize(config.projects[taskInfo.applicationId].apks.debugTest),
       "--output", res.outPath,
