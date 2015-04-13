@@ -145,7 +145,11 @@ function Strategy(taskInfo, configuration, settings) {
     },
 
     toString: function() {
-      return this.id() + "-" + this.injectOnActionGreaterThanEq;
+      if (settings.stressType == Type.ALL) {
+        return this.id() + "-" + this.injectOnActionGreaterThanEq;
+      } else {
+        return this.id() + "-" + settings.configurations.join("-") + "-action-" + this.injectOnActionGreaterThanEq;
+      }
     }
   };
 
@@ -209,17 +213,7 @@ function Strategy(taskInfo, configuration, settings) {
       AndroidObjects: AndroidObjects,
       tools: tools,
       self: self
-    }, function(result, androidInterface) { // modified callback
-      if (settings.stopOnError) {
-        callback(result);
-      } else {
-        taskInfo.title += "-stop-on-error";
-        androidInterface.aggregateTests(taskInfo, [currentMode.results[0]], function (error) {
-          taskInfo.title = taskInfo.title.substring(0, taskInfo.title.lastIndexOf("-stop-on-error"));
-          callback(result);
-        });
-      }
-    }, data);
+    }, callback, data);
   };
 
   /**
