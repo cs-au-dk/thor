@@ -253,7 +253,7 @@ function Graph(name, data) {
 		var attributes = [];
 
 		var idFinder = function(view, id) {
-			var found = view.fields.mID && (view.fields.mID.content.indexOf(id) >= 0)
+			var found = view.fields && view.fields.mID && (view.fields.mID.content.indexOf(id) >= 0)
 			if (found) {
 				return view.fields.mID.content
 			} else if (view.children && view.children.length > 0) {
@@ -270,10 +270,12 @@ function Graph(name, data) {
 			var match = idMatcher.exec(edge.label)
 			if (match) {
 				var matchedId = match[1];
-				var prettyid = idFinder(dedumper.parse(from.data.view), matchedId);
-				if (prettyid) {
-					label = edge.label.replace(matchedId, prettyid);
-				}
+				try {
+					var prettyid = idFinder(dedumper.parse(from.data.view), matchedId);
+					if (prettyid) {
+						label = edge.label.replace(matchedId, prettyid);
+					}
+				} catch (err) {}
 			}
 		}
 
