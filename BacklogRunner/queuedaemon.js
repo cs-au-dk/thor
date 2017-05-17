@@ -4,9 +4,10 @@ var TAG = "queuedaemon";
 
 require("colors");
 
-var execFile = require("child_process").execFile;
+var child_process = require("child_process");
+var execFile = child_process.execFile;
+var execSync = child_process.execSync;
 var fs = require("fs");
-var sh = require("execSync");
 var kue = require("kue");
 var express = require("express");
 var directory = require("serve-index");
@@ -37,7 +38,7 @@ if (process.execArgv.indexOf("--harmony")) {
  * 1) Start ADB server
  */
 
-sh.exec(config.adbPath + "/adb start-server");
+execSync(config.adbPath + "/adb start-server");
 
 /**
  * 2) Create the job queue
@@ -61,7 +62,7 @@ kue.app.get("/out/*.dot", function server(req, res) {
   var path = req.path.replace("/out", config.backlogOutPath);
   var ext = path.substring(path.lastIndexOf(".")+1, path.length);
   if (ext == "dot") {
-    sh.exec("dot -Tpng " + path + " -o " + path.replace(".dot", ".png"));
+    execSync("dot -Tpng " + path + " -o " + path.replace(".dot", ".png"));
     path = path.replace(".dot", ".png");
   }
   res.sendfile(path);
@@ -73,7 +74,7 @@ kue.app.post("/thor/exec", function(req, res) {
       currentStrategy.continue();
     }
   } else if (req.query.type == "event-type-fire") {
-    sh.exec(config.adbPath + "/adb shell service call event 1 s16 " + req.query.event);
+    execSync(config.adbPath + "/adb shell service call event 1 s16 " + req.query.event);
   }
   res.end();
 });
@@ -185,8 +186,13 @@ jobs.process("aggregate", 1, function(job, done) {
 function getSettings(job) {
   var log = typeof job.data.log == "string" ? job.data.log == "true" : job.data.log;
   var logFilter = log && typeof job.data.logFilter != "undefined" && job.data.logFilter.length > 0 ? job.data.logFilter : undefined;
-
-  var configurations = (job.data.stress.configurations || "").split(",").map(function(configuration) { return parseInt(configuration); });
+  var list = [];
+  if (job.data.stress.configurations instanceof Array) {
+    list = job.data.stress.configurations;
+  } else if (typeof job.data.stress.configurations === 'string') {
+    list = job.data.stress.configurations.split(',');
+  }
+  var configurations = list.map(function(configuration) { return parseInt(configuration); });
   configurations.sort();
 
   return {

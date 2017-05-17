@@ -514,7 +514,8 @@ jQuery(function($) {
       req.data.name  = name  + "-" + id(req) + "-" + repetition;
       $.ajax({
         url: queueServerAjaxURL,
-        data: req,
+        data: JSON.stringify(req),
+        contentType: "application/json",
         type: "POST",
         success: function(data) {
           $("html, body").animate({ scrollTop: 0 }, 500, function() {

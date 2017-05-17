@@ -1,4 +1,5 @@
-var sh = require("execSync");
+var fs = require("fs");
+var execSync = require("child_process").execSync;
 
 var config = require("../config").config;
 
@@ -30,13 +31,11 @@ function Coverage(taskInfo, device) {
 					androidTestRunner.generateCoverageReport(androidCoverageFilePath);
 
 					// Pull and rename coverage file to local side
-					var cv = sh.exec(config.adbPath + "/adb -s " + device.serial + " pull " + androidCoverageFilePath + " " + getLocalCoverageFilePath(uid));
-					if (cv.code != 0) {
-						if(cv.stdout) console.log(TAG, "stdout:" + cv.stdout.toString().red)
-						if(cv.stderr) console.log(TAG, "stderr:" + cv.stderr.toString().red)
-					} else {
+					try {
+						var stdout = execSync(config.adbPath + "/adb -s " + device.serial + " pull " + androidCoverageFilePath + " " + getLocalCoverageFilePath(uid)).toString();
 						console.log(TAG, "coverage correctly collected");
 						self.success = true;
+					} catch (e) {
 					}
 				}
 				catch(err) {
@@ -48,30 +47,38 @@ function Coverage(taskInfo, device) {
 	};
 
 	this.merge = function() {
-		var arguments = [
-			{ key: "dir.data", value: config.modules.coverage.rawDir + "/" + taskInfo.name },
-			{ key: "file.dest", value: config.modules.coverage.rawDir + "/" + taskInfo.name + ".ec" }
-		];
-		arguments = arguments.map(function(pair) {
-			return "-D" + pair.key + "=\"" + pair.value + "\"";
-		});
-		sh.exec("ant " + arguments.join(" ") + " merge");
+		var data = config.modules.coverage.rawDir + "/" + taskInfo.name;
+
+		if (fs.existsSync(data)) {
+			var arguments = [
+				{ key: "dir.data", value: data },
+				{ key: "file.dest", value: config.modules.coverage.rawDir + "/" + taskInfo.name + ".ec" }
+			];
+			arguments = arguments.map(function(pair) {
+				return "-D" + pair.key + "=\"" + pair.value + "\"";
+			});
+			execSync("ant " + arguments.join(" ") + " merge");
+		}
 
 		return self;
 	};
 
 	this.generateReport = function() {
-		var arguments = [
-			{ key: "file.coverage", value: config.modules.coverage.rawDir + "/" + taskInfo.name + ".ec" },
-			{ key: "dir.classfiles", value: config.projects[taskInfo.applicationId].classDir },
-			{ key: "dir.sourcefiles", value: config.projects[taskInfo.applicationId].srcDir },
-			{ key: "dir.dest", value: config.modules.coverage.reportDir + "/" + taskInfo.name }
-		];
-		arguments = arguments.map(function(pair) {
-			return "-D" + pair.key + "=\"" + pair.value + "\"";
-		});
-		// console.log(TAG, "ant " + arguments.join(" ") + " report");
-		sh.exec("ant " + arguments.join(" ") + " report");
+		var data = config.modules.coverage.rawDir + "/" + taskInfo.name + ".ec";
+
+		if (fs.existsSync(data)) {
+			var arguments = [
+				{ key: "file.coverage", value: data },
+				{ key: "dir.classfiles", value: config.projects[taskInfo.applicationId].classDir },
+				{ key: "dir.sourcefiles", value: config.projects[taskInfo.applicationId].srcDir },
+				{ key: "dir.dest", value: config.modules.coverage.reportDir + "/" + taskInfo.name }
+			];
+			arguments = arguments.map(function(pair) {
+				return "-D" + pair.key + "=\"" + pair.value + "\"";
+			});
+			// console.log(TAG, "ant " + arguments.join(" ") + " report");
+			execSync("ant " + arguments.join(" ") + " report");
+		}
 
 		return self;
 	};

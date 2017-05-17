@@ -1,6 +1,6 @@
 var fs = require("fs");
 var mkdirp = require("mkdirp");
-var sh = require("execSync");
+var sh = { exec: require("child_process").execSync };
 
 var config = require("../config").config;
 var dedumper = require("../viewDumper/dedumper");

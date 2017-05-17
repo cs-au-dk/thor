@@ -1,7 +1,7 @@
 var sys = require("sys");
 var exec = require("child_process").exec;
 var polyfill = require("../utils/polyfill");
-var sh = require('execSync');
+var sh = { exec: require("child_process").execSync };
 var fs = require("fs");
 var config = require("../config").config;
 

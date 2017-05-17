@@ -40,7 +40,7 @@ case ${answer:0:1} in
       ;;
 
     Darwin)
-      brew install git # ... incomplete ...
+      brew install git redis # ... incomplete ...
       ;;
 
     esac
@@ -173,7 +173,7 @@ fi
 
 echo "Getting test server dependencies"
 
-(cd /Volumes/Android4.4.3/thor/BacklogRunner && npm install)
+(cd /Volumes/Android4.4.3/thor/BacklogRunner && sudo npm install)
 
 echo "Initializing Thor"
 
@@ -219,10 +219,20 @@ else
   mkdir -p /Volumes/Android4.4.3/thor/Android/out/target/product/generic_x86
 fi
 
-unzip $HOMEFOLDER/Downloads/android-images.zip -d /Volumes/Android4.4.3/thor/Android/out/target/product/generic_x86/
+unzip $HOMEFOLDER/Downloads/android-images.zip -d "/Volumes/Android4.4.3/thor/Android/out/target/product/generic_x86/"
 
 echo "Setting ANDROID_HOME"
 
-echo "export ANDROID_HOME=/Volumes/Android4.4.3/thor/Android" >> $HOMEFOLDER/.bashrc
-. $HOMEFOLDER/.bashrc
+case "$(uname -s)" in
+Linux)
+  echo "export ANDROID_HOME=/Volumes/Android4.4.3/thor/Android" >> $HOMEFOLDER/.bashrc
+  . $HOMEFOLDER/.bashrc
+  ;;
 
+Darwin)
+  ANDROID_LOCATION="/Volumes/Android4.4.3/thor/Android"
+  echo "export ANDROID_HOME=$ANDROID_LOCATION" >> $HOMEFOLDER/.bashrc
+  echo "export PATH=\$PATH:$ANDROID_LOCATION/platform-tools:$ANDROID_LOCATION/tools:$ANDROID_LOCATION/build-tools/android-4.4.2" >> $HOMEFOLDER/.bashrc
+  . $HOMEFOLDER/.bashrc
+  ;;
+esac

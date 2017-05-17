@@ -1,4 +1,4 @@
-var sh = require("execSync");
+var sh = { exec: require("child_process").execSync };
 var exec = require("child_process").exec;
 var Promise = require('bluebird')
 var adb = require('adbkit')
@@ -32,7 +32,7 @@ function FakeEventifier() {
       for (i = 0; i < devices.length; i++) {
         if (devices[i].type == "device" && current.indexOf(devices[i].id) < 0) { 
           // console.log("new device detected ", devices[i]);
-          var uuid = sh.exec(config.adbPath +"/adb -s " + devices[i].id + " shell getprop emu.uuid").stdout.trim()
+          var uuid = sh.exec(config.adbPath +"/adb -s " + devices[i].id + " shell getprop emu.uuid").toString().trim();
           if (self.connected(devices[i].id, uuid)) {
             acceptedNewDevices.push(devices[i].id);
           } else {
@@ -279,8 +279,8 @@ function Emulator(recycleCallback, deadcallback) {
 
   var getEmulatorPid = function() {
     var ps = sh.exec("ps aux -e | grep \".*emulator64-x86.*"+ self.uuid +"\"");
-   
-    var lines = ps.stdout.split("\n");
+
+    var lines = ps.toString().split("\n");
     lines = lines.filter(function(it) {return it.indexOf("grep") < 0})
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i].trim();
@@ -300,7 +300,7 @@ function Emulator(recycleCallback, deadcallback) {
 
     var ps = sh.exec("ps aux -e | grep \".*emulator64-x86.*"+ self.uuid +"\"");
    
-    var lines = ps.stdout.split("\n");
+    var lines = ps.toString().split("\n");
     lines = lines.filter(function(it) {return it.indexOf("grep") < 0})
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i].trim();
@@ -408,13 +408,18 @@ function Emulator(recycleCallback, deadcallback) {
   this.isBooted = function() {
     if(!self.serial)
       throw "Serial not yet attached";
-    var checkBooted = sh.exec(config.adbPath +"/adb -s " + self.serial + " shell getprop sys.boot_completed");
-    return (checkBooted.stdout.trim() == "1")
+    try {
+      var checkBooted = sh.exec(config.adbPath +"/adb -s " + self.serial + " shell getprop sys.boot_completed").toString();
+      return checkBooted.trim() === "1";
+    } catch (e) {
+      return false;
+    }
   }
     
   var start = function() {
     console.log(TAG, ("-->------>--- starting emulator " + self.name + " :-)"));
     var runningPid = getEmulatorPid();
+    console.log(runningPid);
     if(runningPid < 0) {
       self.me = child.spawn("./" + self.name, config.modules.emulatorPool.skin ? [config.modules.emulatorPool.skin] : [], {
         detached: true,

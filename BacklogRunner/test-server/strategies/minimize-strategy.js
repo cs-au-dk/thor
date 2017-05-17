@@ -1,6 +1,6 @@
 require("colors");
 
-var sh = require("execSync");
+var sh = { exec: require("child_process").execSync };
 
 var Statistics = require("./statistics").Statistics;
 

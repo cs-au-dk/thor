@@ -1,4 +1,4 @@
-var sh = require("execSync");
+var sh = { exec: require("child_process").execSync };
 var config = require("./../config").config;
 var net = require("net");
 var execFile = require("child_process").execFile;
@@ -13,7 +13,7 @@ var MESSAGE_SPEC_LENGTH = 6;
 
 
 function RemoteProxy(target, device) {
-  return Proxy(target, {
+  return new Proxy(target, {
     get: function(target, name, receiver) {
         // console.log("RemoteProxy queried of a _." + name + " property, that is in target:" + (name in target) + "-" +target.hasOwnProperty(name) + "-" + typeof target[name] + " target was:", target);
         if (name != "toString" && (name in target || name == "inspect")) { /* It is a debugging property that is not in the target */
